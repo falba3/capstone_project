@@ -1,2 +1,19 @@
 # CapstoneProject
 IE University Thesis - Organ Donation Technologies
+
+
+## Scripts
+1. user_registration.py
+2. database_functions.py
+3. matching_algorithm.py
+4. simulations.py
+5. notifications.py
+
+## To do
+1. Create Azure resources
+   1. Azure Database MySQL
+   2. Azure EventHub 
+   3. Azure Communications (notifications)
+2. Define Matching Algorithm
+   1. Rule-based filtering
+   2. Performance metrics
