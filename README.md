@@ -6,8 +6,9 @@ IE University Thesis - Organ Donation Technologies
 1. user_registration.py
 2. database_functions.py
 3. matching_algorithm.py
-4. simulations.py
-5. notifications.py
+4. notifications.py
+5. metrics.py
+6. simulations.py
 
 ## To do
 1. Create Azure resources
