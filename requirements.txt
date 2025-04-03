@@ -1,0 +1,5 @@
+azure-cosmos
+azure-storage-blob
+azure-eventgrid
+azure-functions
+pyodbc
