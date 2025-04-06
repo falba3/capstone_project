@@ -1,7 +1,6 @@
 import streamlit as st
 from database_functions import query_database
 from dotenv import load_dotenv
-import os
 
 # Load environment variables from the .env file
 load_dotenv()

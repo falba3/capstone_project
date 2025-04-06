@@ -12,12 +12,14 @@ def query_database(query):
     :param query: SQL query to be executed
     :return: Result of the query or error message
     """
-    server = os.getenv("DB_SERVER")
-    database = os.getenv("DB_NAME")
-    username = os.getenv("DB_USER")
-    password = os.getenv("DB_PASSWORD")
-
+    conn = None
     try:
+        # Fetch environment variables for the connection
+        server = os.getenv("DB_SERVER")
+        database = os.getenv("DB_NAME")
+        username = os.getenv("DB_USER")
+        password = os.getenv("DB_PASSWORD")
+
         # Create the connection string
         conn = pyodbc.connect(
             f'DRIVER={{ODBC Driver 17 for SQL Server}};'
@@ -35,19 +37,22 @@ def query_database(query):
         # If the query is a SELECT statement, fetch and return the results
         if query.strip().upper().startswith("SELECT"):
             result = cursor.fetchall()
+            conn.close()  # Close the connection after fetching the data
             return result
         else:
-            # If not a SELECT query, commit changes (for INSERT, UPDATE, DELETE, etc.)
+            # For non-SELECT queries, commit the changes and close the connection
             conn.commit()
+            conn.close()  # Ensure connection is closed after committing changes
             return "Query executed successfully"
 
     except Exception as e:
+        # Handle exceptions
+        if conn:
+            conn.close()  # Ensure connection is closed in case of an error
         print(f"Error: {e}")
         return None
 
-    finally:
-        # Close the connection
-        conn.close()
+
 
 
 
@@ -96,3 +101,6 @@ def query_database(query):
 # # Run the queries to create the tables
 # print(query_database(create_donors_table_query))
 # print(query_database(create_patients_table_query))
+
+query = """SELECT * FROM OrganPatients"""
+query_database(query)
