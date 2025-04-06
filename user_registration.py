@@ -9,10 +9,7 @@ import os
 load_dotenv()
 
 # Retrieve the database connection details from environment variables
-username = os.getenv("DB_USERNAME")
-password = os.getenv("DB_PASSWORD")
-server = os.getenv("DB_SERVER")
-database = os.getenv("DB_DATABASE")
+db_connection_string = os.getenv('DB_CONNECTION_STRING')
 
 # Title
 st.title("Organ Donor and Patient Registration")

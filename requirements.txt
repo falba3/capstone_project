@@ -6,4 +6,5 @@ pyodbc
 sqlalchemy
 streamlit
 pymssql
+msal
 python-dotenv
