@@ -1,10 +1,7 @@
-azure-cosmos
-azure-storage-blob
 azure-eventgrid
 azure-functions
 pyodbc
 sqlalchemy
 streamlit
 pymssql
-msal
 python-dotenv
