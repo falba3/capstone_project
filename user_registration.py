@@ -1,13 +1,11 @@
 import streamlit as st
-import datetime
+from database_functions import query_database
 from dotenv import load_dotenv
 import os
 
 # Load environment variables from the .env file
 load_dotenv()
 
-# Retrieve the database connection details from environment variables
-db_connection_string = os.getenv('DB_CONNECTION_STRING')
 
 # Title
 st.title("Organ Donor and Patient Registration")
@@ -70,36 +68,25 @@ if st.button("Submit"):
             "Organs": organs
         })
 
-        # # Set up SQLAlchemy engine and connection string
-        # username = 'your_username'  # Your database username
-        # password = 'your_password'  # Your database password
-        # server = 'your_server.database.windows.net'  # Your SQL server name
-        # database = 'your_database'  # Your database name
-        #
-        # # Create the connection string for SQLAlchemy
-        # connection_string = f"mssql+pymssql://{username}:{password}@{server}/{database}"
-        #
-        # # Create SQLAlchemy engine
-        # engine = create_engine(connection_string)
-        #
-        # # Insert data into the SQL Server database
-        # with engine.connect() as connection:
-        #     # Define the SQL INSERT query
-        #     insert_query = """
-        #         INSERT INTO organ_registration (
-        #             role, name, date_of_birth, gender, email, phone, height, weight, blood_type,
-        #             conditions, infections, organs
-        #         )
-        #         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        #     """
-        #
-        #     # Prepare data to insert into the query
-        #     data = (
-        #         role, name, str(date_of_birth), gender, email, phone, height, weight,
-        #         blood_type, conditions, infections, ", ".join(organs)
-        #     )
-        #
-        #     # Execute the insert query
-        #     connection.execute(insert_query, data)
+        # Prepare the SQL INSERT query based on the role
+        if role == "Donor":
+            table_name = "OrganDonors"
+        else:
+            table_name = "OrganPatients"
 
-        st.success("Data inserted into the database successfully!")
+        insert_query = f"""
+                    INSERT INTO {table_name} (
+                        role, name, date_of_birth, gender, email, phone, height, weight, blood_type,
+                        conditions, infections, organs
+                    )
+                    VALUES ('{role}', '{name}', '{str(date_of_birth)}', '{gender}', '{email}', '{phone}', 
+                            {height}, {weight}, '{blood_type}', '{conditions}', '{infections}', '{", ".join(organs)}')
+                """
+
+        # Call query_database to insert data
+        result = query_database(insert_query)
+
+        if result is None:
+            st.error("There was an error inserting the data into the database.")
+        else:
+            st.success("Data inserted into the database successfully!")
