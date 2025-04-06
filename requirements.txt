@@ -3,4 +3,7 @@ azure-storage-blob
 azure-eventgrid
 azure-functions
 pyodbc
+sqlalchemy
 streamlit
+pymssql
+python-dotenv

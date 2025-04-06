@@ -1,7 +1,18 @@
 import streamlit as st
 import pandas as pd
 import datetime
-import pyodbc
+from sqlalchemy import create_engine
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from the .env file
+load_dotenv()
+
+# Retrieve the database connection details from environment variables
+username = os.getenv("DB_USERNAME")
+password = os.getenv("DB_PASSWORD")
+server = os.getenv("DB_SERVER")
+database = os.getenv("DB_DATABASE")
 
 # Title
 st.title("Organ Donor and Patient Registration")
@@ -31,7 +42,8 @@ infections = st.text_area("Infectious Diseases (if any)")
 # Organ Preferences
 st.header("Organ Preferences")
 if role == "Donor":
-    organs = st.multiselect("Organs willing to donate", ["Heart", "Kidneys", "Liver", "Lungs", "Pancreas", "Intestines"])
+    organs = st.multiselect("Organs willing to donate",
+                            ["Heart", "Kidneys", "Liver", "Lungs", "Pancreas", "Intestines"])
 else:
     organs = st.multiselect("Organs required", ["Heart", "Kidneys", "Liver", "Lungs", "Pancreas", "Intestines"])
 
@@ -45,6 +57,7 @@ if st.button("Submit"):
         st.warning("Please complete all required fields and give consent.")
     else:
         st.success(f"{role} registered successfully!")
+
         # Display data
         st.write("### Summary")
         st.json({
@@ -62,10 +75,36 @@ if st.button("Submit"):
             "Organs": organs
         })
 
-        # In a real app, here is where you'd insert the data into Azure SQL Database
-        # Example:
-        # conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=your_server;DATABASE=your_db;UID=user;PWD=password')
-        # cursor = conn.cursor()
-        # cursor.execute("INSERT INTO Users (...) VALUES (?, ?, ...)", (...))
-        # conn.commit()
-        # conn.close()
+        # # Set up SQLAlchemy engine and connection string
+        # username = 'your_username'  # Your database username
+        # password = 'your_password'  # Your database password
+        # server = 'your_server.database.windows.net'  # Your SQL server name
+        # database = 'your_database'  # Your database name
+        #
+        # # Create the connection string for SQLAlchemy
+        # connection_string = f"mssql+pymssql://{username}:{password}@{server}/{database}"
+        #
+        # # Create SQLAlchemy engine
+        # engine = create_engine(connection_string)
+        #
+        # # Insert data into the SQL Server database
+        # with engine.connect() as connection:
+        #     # Define the SQL INSERT query
+        #     insert_query = """
+        #         INSERT INTO organ_registration (
+        #             role, name, date_of_birth, gender, email, phone, height, weight, blood_type,
+        #             conditions, infections, organs
+        #         )
+        #         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        #     """
+        #
+        #     # Prepare data to insert into the query
+        #     data = (
+        #         role, name, str(date_of_birth), gender, email, phone, height, weight,
+        #         blood_type, conditions, infections, ", ".join(organs)
+        #     )
+        #
+        #     # Execute the insert query
+        #     connection.execute(insert_query, data)
+
+        st.success("Data inserted into the database successfully!")
