@@ -22,7 +22,8 @@ def query_database(query):
 
         # Create the connection string
         conn = pyodbc.connect(
-            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+            f'DRIVER={{ODBC Driver 18 for SQL Server}};'
+            # f"Driver={{SQL Server Native Client 11.0}};"
             f'SERVER={server};'
             f'DATABASE={database};'
             f'UID={username};'
@@ -60,7 +61,7 @@ def query_database(query):
 
 # # SQL query to create the OrganDonors table
 # create_donors_table_query = """
-# CREATE TABLE OrganDonors (
+# CREATE TABLE Donors (
 #     id INT IDENTITY(1,1) PRIMARY KEY,
 #     role VARCHAR(50) NOT NULL,
 #     name VARCHAR(100) NOT NULL,
@@ -74,13 +75,15 @@ def query_database(query):
 #     conditions TEXT,
 #     infections TEXT,
 #     organs VARCHAR(255) NOT NULL,  -- A comma-separated list of organs willing to donate
-#     registration_date DATETIME DEFAULT GETDATE()
+#     registration_date DATETIME DEFAULT GETDATE(),
+#     active BIT NOT NULL DEFAULT 1  -- Active field (1 for active, 0 for inactive)
 # );
+#
 # """
 #
 # # SQL query to create the OrganPatients table (updated)
 # create_patients_table_query = """
-# CREATE TABLE OrganPatients (
+# CREATE TABLE Patients (
 #     id INT IDENTITY(1,1) PRIMARY KEY,
 #     role VARCHAR(50) NOT NULL,
 #     name VARCHAR(100) NOT NULL,
@@ -94,13 +97,27 @@ def query_database(query):
 #     conditions TEXT,
 #     infections TEXT,
 #     organs VARCHAR(255) NOT NULL,  -- A comma-separated list of organs required
-#     registration_date DATETIME DEFAULT GETDATE()
+#     registration_date DATETIME DEFAULT GETDATE(),
+#     active BIT NOT NULL DEFAULT 1  -- Active field (1 for active, 0 for inactive)
 # );
 # """
-#
+
+# # SQL query to create the OrganPatients table (updated)
+# create_matches_table_query = """
+# CREATE TABLE Matches (
+#     id INT IDENTITY(1,1) PRIMARY KEY,  -- Primary Key for the Match record
+#     donor_id INT NOT NULL,              -- Foreign Key referencing OrganDonors table (donor)
+#     patient_id INT NOT NULL,            -- Foreign Key referencing Patients table (patient)
+#     risk_score INT,                     -- Risk score (can be negative)
+#     match_date DATETIME DEFAULT GETDATE(),  -- Timestamp for when the match was created
+#     match_status BIT NOT NULL DEFAULT 0,  -- Boolean field for match status (0 for no match, 1 for match)
+#     FOREIGN KEY (donor_id) REFERENCES Donors(id),  -- Linking to the OrganDonors table
+#     FOREIGN KEY (patient_id) REFERENCES Patients(id)   -- Linking to the Patients table
+# );
+# """
+
+
 # # Run the queries to create the tables
 # print(query_database(create_donors_table_query))
 # print(query_database(create_patients_table_query))
-
-query = """SELECT * FROM OrganPatients"""
-query_database(query)
+# print(query_database(create_matches_table_query))
