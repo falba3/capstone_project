@@ -1,7 +1,7 @@
 import streamlit as st
-# from database_functions import query_database
 from dotenv import load_dotenv
 import requests
+# from database_functions import query_database
 
 
 # Load environment variables from the .env file
@@ -54,7 +54,7 @@ if st.button("Submit"):
 
         # Display data
         st.write("### Summary")
-        st.json({
+        user_info_json = {
             "Role": role,
             "Name": name,
             "DOB": str(date_of_birth),
@@ -67,7 +67,8 @@ if st.button("Submit"):
             "Medical Conditions": conditions,
             "Infectious Diseases": infections,
             "Organs": organs
-        })
+        }
+        st.json(user_info_json)
 
         # Prepare the SQL INSERT query based on the role
         if role == "Donor":
@@ -75,23 +76,31 @@ if st.button("Submit"):
         else:
             table_name = "Patients"
 
-        insert_query = f"""
-                    INSERT INTO {table_name} (
-                        role, name, date_of_birth, gender, email, phone, height, weight, blood_type,
-                        conditions, infections, organs
-                    )
-                    VALUES ('{role}', '{name}', '{str(date_of_birth)}', '{gender}', '{email}', '{phone}', 
-                            {height}, {weight}, '{blood_type}', '{conditions}', '{infections}', '{", ".join(organs)}')
-                """
+        response = requests.post(
+            "https://capstonefunctionapp410.azurewebsites.net/api/UploadRegistrationData",
+            json=user_info_json
+        )
+        print(response.text)
 
-        # response = requests.post(
-        #     "https://<your-function-name>.azurewebsites.net/api/UploadDonorData",
-        #     json={"name": "John", "email": "john@email.com"}
-        # )
-        # print(response.text)
+
+
+
+
+
+        # insert_query = f"""
+        #                     INSERT INTO {table_name} (
+        #                         role, name, date_of_birth, gender, email, phone, height, weight, blood_type,
+        #                         conditions, infections, organs
+        #                     )
+        #                     VALUES ('{role}', '{name}', '{str(date_of_birth)}', '{gender}', '{email}', '{phone}',
+        #                             {height}, {weight}, '{blood_type}', '{conditions}', '{infections}', '{", ".join(organs)}')
+        #                 """
+
 
         # Call query_database to insert data
         # result = query_database(insert_query)
+
+
 
         # if result is None:
         #     st.error("There was an error inserting the data into the database.")
