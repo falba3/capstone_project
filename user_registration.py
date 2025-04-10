@@ -1,5 +1,5 @@
 import streamlit as st
-from database_functions import query_database
+# from database_functions import query_database
 from dotenv import load_dotenv
 
 # Load environment variables from the .env file
@@ -69,9 +69,9 @@ if st.button("Submit"):
 
         # Prepare the SQL INSERT query based on the role
         if role == "Donor":
-            table_name = "OrganDonors"
+            table_name = "Donors"
         else:
-            table_name = "OrganPatients"
+            table_name = "Patients"
 
         insert_query = f"""
                     INSERT INTO {table_name} (
@@ -83,7 +83,7 @@ if st.button("Submit"):
                 """
 
         # Call query_database to insert data
-        result = query_database(insert_query)
+        # result = query_database(insert_query)
 
         if result is None:
             st.error("There was an error inserting the data into the database.")

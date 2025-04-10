@@ -22,7 +22,7 @@ def query_database(query):
 
         # Create the connection string
         conn = pyodbc.connect(
-            f'DRIVER={{ODBC Driver 18 for SQL Server}};'
+            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
             # f"Driver={{SQL Server Native Client 11.0}};"
             f'SERVER={server};'
             f'DATABASE={database};'
@@ -121,3 +121,4 @@ def query_database(query):
 # print(query_database(create_donors_table_query))
 # print(query_database(create_patients_table_query))
 # print(query_database(create_matches_table_query))
+print(query_database("SELECT * FROM Donors"))
