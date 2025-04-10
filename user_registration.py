@@ -85,7 +85,7 @@ if st.button("Submit"):
         # Call query_database to insert data
         # result = query_database(insert_query)
 
-        if result is None:
-            st.error("There was an error inserting the data into the database.")
-        else:
-            st.success("Data inserted into the database successfully!")
+        # if result is None:
+        #     st.error("There was an error inserting the data into the database.")
+        # else:
+        #     st.success("Data inserted into the database successfully!")
