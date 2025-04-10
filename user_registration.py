@@ -1,6 +1,8 @@
 import streamlit as st
 # from database_functions import query_database
 from dotenv import load_dotenv
+import requests
+
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -81,6 +83,12 @@ if st.button("Submit"):
                     VALUES ('{role}', '{name}', '{str(date_of_birth)}', '{gender}', '{email}', '{phone}', 
                             {height}, {weight}, '{blood_type}', '{conditions}', '{infections}', '{", ".join(organs)}')
                 """
+
+        # response = requests.post(
+        #     "https://<your-function-name>.azurewebsites.net/api/UploadDonorData",
+        #     json={"name": "John", "email": "john@email.com"}
+        # )
+        # print(response.text)
 
         # Call query_database to insert data
         # result = query_database(insert_query)
