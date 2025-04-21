@@ -2,7 +2,6 @@ import streamlit as st
 from dotenv import load_dotenv
 import requests
 import os
-# from database_functions import query_database
 
 
 # Load environment variables from the .env file
@@ -84,27 +83,3 @@ if st.button("Submit"):
         )
         print(response.text)
 
-
-
-
-
-
-        # insert_query = f"""
-        #                     INSERT INTO {table_name} (
-        #                         role, name, date_of_birth, gender, email, phone, height, weight, blood_type,
-        #                         conditions, infections, organs
-        #                     )
-        #                     VALUES ('{role}', '{name}', '{str(date_of_birth)}', '{gender}', '{email}', '{phone}',
-        #                             {height}, {weight}, '{blood_type}', '{conditions}', '{infections}', '{", ".join(organs)}')
-        #                 """
-
-
-        # Call query_database to insert data
-        # result = query_database(insert_query)
-
-
-
-        # if result is None:
-        #     st.error("There was an error inserting the data into the database.")
-        # else:
-        #     st.success("Data inserted into the database successfully!")
