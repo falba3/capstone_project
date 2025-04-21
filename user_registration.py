@@ -37,10 +37,10 @@ infections = st.text_area("Infectious Diseases (if any)")
 # Organ Preferences
 st.header("Organ Preferences")
 if role == "Donor":
-    organs = st.multiselect("Organs willing to donate",
+    organs = st.selectbox("Organ willing to donate",
                             ["Heart", "Kidneys", "Liver", "Lungs", "Pancreas", "Intestines"])
 else:
-    organs = st.multiselect("Organs required", ["Heart", "Kidneys", "Liver", "Lungs", "Pancreas", "Intestines"])
+    organs = st.selectbox("Organ required", ["Heart", "Kidneys", "Liver", "Lungs", "Pancreas", "Intestines"])
 
 # Consent
 st.header("Legal Consent")
