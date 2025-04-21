@@ -1,11 +1,13 @@
 import streamlit as st
 from dotenv import load_dotenv
 import requests
+import os
 # from database_functions import query_database
 
 
 # Load environment variables from the .env file
 load_dotenv()
+azure_api = os.getenv("AZURE_API")
 
 
 # Title
@@ -77,7 +79,7 @@ if st.button("Submit"):
             table_name = "Patients"
 
         response = requests.post(
-            "https://capstonefunctionapp410.azurewebsites.net/api/UploadRegistrationData",
+            azure_api,
             json=user_info_json
         )
         print(response.text)
